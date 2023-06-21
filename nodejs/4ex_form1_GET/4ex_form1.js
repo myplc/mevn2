@@ -13,7 +13,6 @@ app.get('/main/data',(req,res)=>{
     const content = req.query.content
     console.log(name, age, content)
     res.redirect('/main/done.html')
-
 })
 
 
