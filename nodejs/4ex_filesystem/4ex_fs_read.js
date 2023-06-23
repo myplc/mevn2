@@ -18,12 +18,20 @@ app.get('/files',(req,res)=>{
             if(v.indexOf('.')===-1){
                 list += `<li><a href="#">[${v}]</a></li>`    
             }else{
-                list += `<li><a href="/${v}" download>${v}</a></li>`
+                list += `<li><a href="/${v}">${v}</a><button onclick="location.href='del/${v}'" >삭제</button></li>`
             }
         })
         list += '</ul>'
          res.send(list);
     })
+})
+app.get('/del/:fname',(req,res)=>{
+    const fname = req.params.fname
+    fs.unlink(_path+'/'+fname,(err)=>{
+        if(err)console.log(err)
+        console.log('삭제 성공하였습니다.')
+    })
+    res.send(`<script>alert('${fname}를 삭제 하였습니다.');location.href = document.referrer;</script>`) //history.go(-1)
 })
 
 app.listen(PORT,()=>console.log('listening on port'+PORT))
