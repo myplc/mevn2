@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>웹브라우저에 저장1</title>
+    <script>
+      let saveValue, loadArr
+      function load() {
+        saveValue = localStorage.getItem('input') // 첫 로딩때 값 읽어오기
+        loadArr = localStorage.getItem('Array') ?? ''
+      }
+      document.addEventListener('DOMContentLoaded', () => {
+        load()
+        const input = document.createElement('input')
+        const button = document.createElement('button')
+        const button2 = document.createElement('button')
+        const p = document.createElement('p')
+        const p2 = document.createElement('p')
+        document.body.append(button, input, button2, p, p2)
+        input.setAttribute('placeholder', saveValue)
+        button.textContent = '지우기'
+        button2.textContent = '배열추가'
+        p.textContent = `이전 실행 때의 마지막 값: ${saveValue}`
+        p2.innerHTML = loadArr // string
+
+        let arr = []
+        console.log(loadArr, typeof loadArr, Array.isArray(loadArr)) // loadArr is string !!!
+        loadArr == '' ? arr.length == 0 : (arr = loadArr.split(','))
+
+        input.addEventListener('keyup', (e) => {
+          const value = e.currentTarget.value
+          localStorage.setItem('input', value)
+          load() // 키값이 입력 될때마다 읽어오기
+          input.value = saveValue
+          if (saveValue) {
+            p.textContent = `이전 실행 때의 마지막 값: ${saveValue}`
+          }
+        })
+        button.addEventListener('click', () => {
+          localStorage.clear()
+          input.value = ''
+          p.textContent = ''
+        })
+        button2.addEventListener('click', () => {
+          arr.push(saveValue)
+          p2.innerHTML = arr
+          localStorage.setItem('Array', arr)
+        })
+      })
+    </script>
+  </head>
+  <body></body>
+</html>
