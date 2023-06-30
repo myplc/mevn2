@@ -25,17 +25,3 @@ app.get('/files', (req, res) => {
     res.send(list)
   })
 })
-app.get('/del/:fname', (req, res) => {
-  const fname = req.params.fname
-  fs.unlink(_path + '/' + fname, (err) => {
-    if (err) {
-      console.log(err)
-      return
-    }
-    console.log('삭제를 성공하였습니다.')
-  })
-  res.send(
-    `<script>alert('${fname}를 삭제 하였습니다.');location.href=document.referrer</script>`
-  )
-})
-app.listen(PORT, () => console.log('listening on port' + PORT))
