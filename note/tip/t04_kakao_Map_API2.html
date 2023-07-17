@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=17de67d6aa5dc5e37415773079fd19b0"
+    ></script>
+  </head>
+  <body>
+    <div id="map" style="width: 500px; height: 400px"></div>
+    <script>
+      const gpsX = 35.155945959935
+      const gpsY = 129.059019125177
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          const lat = position.coords.latitude // 위도정보
+          const lon = position.coords.longitude // 경도 정보
+          const locPosition = new kakao.maps.LatLng(gpsX, gpsY) // 지도에 마커표시
+          const message = `<div>여기가 정거장</div>`
+          displayMarker(locPosition, message) // 아래쪽에 함수를 만들예정
+        })
+      } else {
+        alert('사용자의 웹 브라우저가 Geolocation API를 지원하지 않습니다.')
+      }
+
+      const mapContainer = document.getElementById('map')
+      mapOptions = {
+        center: new kakao.maps.LatLng(gpsX, gpsY), // 지도중심좌표
+        level: 4 // 지도의 확대 레벨
+      }
+      const map = new kakao.maps.Map(mapContainer, mapOptions) //지도생성
+
+      function displayMarker(locPosition, message) {
+        // 마커생성
+        const marker = new kakao.maps.Marker({
+          map,
+          position: locPosition
+        })
+        const iwContent = message // 인포윈도우에 표시할 내용
+        const iwRemoveable = true
+        // 인포윈도우 생성
+        const infowindow = new kakao.maps.InfoWindow({
+          content: iwContent,
+          removable: iwRemoveable
+        })
+        //인포윈도우 마커위에 표시
+        infowindow.open(map, marker)
+        //지도 중심좌표를 접속위치로 변경
+        map.setCenter(locPosition)
+      }
+    </script>
+  </body>
+</html>

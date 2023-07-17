@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta http-equiv="refresh" content="30" /> -->
+    <title>달러를 원화로</title>
+    <script></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const einput = document.createElement('input')
+        const espan = document.createElement('span')
+        const ebutton = document.createElement('button')
+        const ep = document.createElement('p')
+        const div = document.createElement('div')
+        document.body.append(einput, espan, ebutton, ep, div)
+        ebutton.innerHTML = '계산'
+        espan.innerHTML = ' 달러  '
+
+        let mydata, data0
+        const url =
+          'https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD'
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            // console.log(dollar * data[0].basePrice)
+            data0 = data[0].basePrice
+            div.innerHTML = '현재 환률은 : ' + data0 + '원'
+          })
+
+        ebutton.addEventListener('click', () => {
+          const dollar = Number(einput.value)
+          mydata = dollar * data0
+          if (isNaN(dollar)) {
+            ep.textContent = '숫자를 입력하세요'
+            return // 조기리턴 : 이것 이후에는 빠른 종료 하겠다는 의지
+          }
+
+          ep.textContent = `${mydata.toLocaleString('ko-KR')} 원`
+        })
+        // })
+        // }
+        // })
+      })
+    </script>
+  </head>
+  <body>
+    <h2>
+      <pre>
+        1. 실시간 환률을 보여주고
+
+        2. 사용자로 부터 원화 입력을 받은 후
+        변환버튼을 누르면
+        현재 원화로 계산해 주는 사이트를 만드시오.
+
+        참고사항) .toLocaleString('ko-KR')
+    </pre
+      >
+    </h2>
+  </body>
+</html>
